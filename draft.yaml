@@ -1,0 +1,111 @@
+models:
+  City:
+    name: string
+    state_id: unsignedInteger
+    relationships:
+      belongsTo: State
+
+  State:
+    name: string:60
+    country_id: unsignedInteger
+    relationships:
+      belongsTo: Country
+      hasMany: City
+
+  Country:
+    name: string:60
+    code: string:3
+    phone_code: string:5 nullable
+    relationships:
+      hasMany: State
+
+  Address:
+    country_id: unsignedInteger
+    state_id: unsignedInteger
+    city_id: unsignedInteger
+    zip_code: string
+    address: string:120
+    relationships:
+      morphTo: Addressable
+      belongsTo: Country, State, City
+
+  Communicator:
+    phone: string:15 nullable
+    facebook_url: string:255 nullable
+    whatsapp_number: string:255 nullable
+    relationships:
+      morphTo: Communicable
+
+  Ngo:
+    name: string:255
+    softdeletes
+    relationships:
+      morphMany: Address
+      hasMany: LearningCenter
+
+  LearningCenter:
+    name: string:255
+    ngo_id: unsignedInteger
+    softdeletes
+    relationships:
+      morphMany: Address
+      belongsTo: Ngo
+
+  Designation:
+    name: string:255
+
+  Staff:
+    user_id: unsignedInteger
+    ngo_id: unsignedInteger
+    designation_id: unsignedInteger
+    softdeletes
+    relationships:
+      morphMany: Address, Communicator
+      belongsTo: Ngo, User, Designation
+
+  Classes:
+    name: string:255
+    relationships:
+      hasMany: Student
+
+  Subjects:
+    name: string:255
+
+  Section:
+    name: enum:A,B,C,D
+    relationships:
+      hasMany: Student
+
+  Student:
+    first_name: string:60 index
+    last_name: string:60 index
+    fathers_name: string:60
+    mothers_name: string:60
+    gender: enum:male,female,other
+    birth_date: date
+    age: integer
+    email: string:60 nullable
+    learning_center_id: unsignedInteger
+    learning_center_type: enum:Coaching,"Pre School" default:"Pre School"
+    classes_id: unsignedInteger
+    section_id: unsignedInteger
+    class_roll: string:60
+    enroll_date: date
+    is_still_in_learning_center: boolean default:true
+    graduated_date: date nullable
+    institute_name: string:255 nullable
+    institute_class_roll: string:255 nullable
+    address_of_institute: string:255 nullable
+    grade_of_students: string:255 nullable
+    department: string:255 nullable
+    softdeletes
+    relationships:
+      morphMany: Address, Communicator
+      belongsTo: LearningCenter, Classes, Section
+
+  Attendance:
+    student_id: unsignedInteger
+    classes_id: unsignedInteger
+    status: enum:Absent,Present,Late
+    relationships:
+      belongsTo: Student, Classes
