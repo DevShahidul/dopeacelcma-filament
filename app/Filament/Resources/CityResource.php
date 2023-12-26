@@ -64,7 +64,7 @@ class CityResource extends Resource
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                    DeleteåBulkAction::make(),
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

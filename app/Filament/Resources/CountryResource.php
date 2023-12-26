@@ -67,7 +67,7 @@ class CountryResource extends Resource
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                    DeåleteBulkAction::make(),
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
