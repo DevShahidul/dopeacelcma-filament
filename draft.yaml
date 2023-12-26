@@ -29,12 +29,12 @@ models:
       morphTo: Addressable
       belongsTo: Country, State, City
 
-  Communicator:
+  Contact:
     phone: string:15 nullable
     facebook_url: string:255 nullable
     whatsapp_number: string:255 nullable
     relationships:
-      morphTo: Communicable
+      morphTo: Contactable
 
   Ngo:
     name: string:255
@@ -60,7 +60,7 @@ models:
     designation_id: unsignedInteger
     softdeletes
     relationships:
-      morphMany: Address, Communicator
+      morphMany: Address, Contact
       belongsTo: Ngo, User, Designation
 
   Classes:
@@ -100,7 +100,7 @@ models:
     department: string:255 nullable
     softdeletes
     relationships:
-      morphMany: Address, Communicator
+      morphMany: Address, Contact
       belongsTo: LearningCenter, Classes, Section
 
   Attendance:
