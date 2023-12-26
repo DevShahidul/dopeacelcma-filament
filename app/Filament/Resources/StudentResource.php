@@ -14,6 +14,7 @@ use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -151,7 +152,17 @@ class StudentResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('deleted_at')
+                    ->options([
+                        'with-trashed' => 'With Trashed',
+                        'only-trashed' => 'Only Trashed',
+                    ])->query(function (Builder $query, array $data) {
+                        $query->when($data['value'] === 'with-trashed', function (Builder $query){
+                            $query->withTrashed();
+                        })->when($data['value'] === 'only-trashed', function (Builder $query){
+                            $query->onlyTrashed();
+                        });
+                    })
             ])
             ->actions([
                 EditAction::make(),

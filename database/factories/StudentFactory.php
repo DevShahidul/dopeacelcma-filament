@@ -36,7 +36,7 @@ class StudentFactory extends Factory
             'learning_center_type' => $this->faker->randomElement(["Coaching","Pre School"]),
             'classes_id' => Classes::factory(),
             'section_id' => Section::factory(),
-            'class_roll' => $this->faker->regexify('[0-9]{20}'),
+            'class_roll' => $this->faker->randomDigitNotZero(11),
             'enroll_date' => $this->faker->date(),
             'is_still_in_learning_center' => $this->faker->boolean(),
             'graduated_date' => $this->faker->date(),
