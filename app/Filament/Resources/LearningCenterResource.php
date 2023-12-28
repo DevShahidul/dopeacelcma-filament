@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enum\Region;
 use App\Filament\Resources\LearningCenterResource\Pages;
 use App\Filament\Resources\LearningCenterResource\RelationManagers;
 use App\Models\LearningCenter;
@@ -9,6 +10,7 @@ use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\BulkActionGroup;
@@ -28,14 +30,7 @@ class LearningCenterResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Select::make('ngo_id')
-                    ->relationship('ngo', 'name')
-                    ->required(),
-            ]);
+            ->schema(LearningCenter::getForm());
     }
 
     public static function table(Table $table): Table
@@ -43,6 +38,8 @@ class LearningCenterResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->searchable(),
+                TextColumn::make('region')
                     ->searchable(),
                 TextColumn::make('ngo.name')
                     ->numeric()

@@ -27,11 +27,7 @@ class DesignationResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-            ]);
+            ->schema(Designation::getForm());
     }
 
     public static function table(Table $table): Table

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enum\Region;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\LearningCenter;
@@ -23,6 +24,7 @@ class LearningCenterFactory extends Factory
     {
         return [
             'name' => $this->faker->name() . "Learning Center",
+            'region' => $this->faker->randomElement(Region::class),
             'ngo_id' => Ngo::factory(),
         ];
     }

@@ -4,6 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\StaffResource\Pages;
 use App\Filament\Resources\StaffResource\RelationManagers;
+use App\Models\Designation;
+use App\Models\Ngo;
 use App\Models\Staff;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
@@ -32,9 +34,11 @@ class StaffResource extends Resource
                     ->relationship('user', 'name')
                     ->required(),
                 Select::make('ngo_id')
+                    ->createOptionForm(Ngo::getForm())
                     ->relationship('ngo', 'name')
                     ->required(),
                 Select::make('designation_id')
+                    ->createOptionForm(Designation::getForm())
                     ->relationship('designation', 'name')
                     ->required(),
             ]);

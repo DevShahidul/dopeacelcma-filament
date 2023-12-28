@@ -38,6 +38,7 @@ models:
 
   Ngo:
     name: string:255
+    region: string
     softdeletes
     relationships:
       morphMany: Address
@@ -45,6 +46,7 @@ models:
 
   LearningCenter:
     name: string:255
+    region: string
     ngo_id: unsignedInteger
     softdeletes
     relationships:
@@ -88,20 +90,20 @@ models:
     learning_center_id: unsignedInteger
     learning_center_type: enum:Coaching,"Pre School" default:"Pre School"
     classes_id: unsignedInteger
-    section_id: unsignedInteger
-    class_roll: string:60
+    session_id: unsignedInteger
+    class_roll: integer
     enroll_date: date
     is_still_in_learning_center: boolean default:true
     graduated_date: date nullable
     institute_name: string:255 nullable
-    institute_class_roll: string:255 nullable
-    address_of_institute: string:255 nullable
-    grade_of_students: string:255 nullable
+    institute_class_roll: integer nullable
+    address_of_institute: string:10 nullable
+    grade_of_students: string:15 nullable
     department: string:255 nullable
     softdeletes
     relationships:
       morphMany: Address, Contact
-      belongsTo: LearningCenter, Classes, Section
+      belongsTo: LearningCenter, Classes, Session
 
   Attendance:
     student_id: unsignedInteger

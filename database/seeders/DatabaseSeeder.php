@@ -8,7 +8,7 @@ use App\Models\Classes;
 use App\Models\Communicator;
 use App\Models\Country;
 use App\Models\Designation;
-use App\Models\Section;
+use App\Models\Session;
 use App\Models\Staff;
 use App\Models\Student;
 use App\Models\Subjects;
@@ -26,10 +26,10 @@ class DatabaseSeeder extends Seeder
         City::factory()->create();
         Classes::factory(10)->create();
         Designation::factory(10)->create();
-        Section::factory(4)->create();
+        Session::factory(4)->create();
         Staff::factory(20)->create();
         Subjects::factory(3)->create();
-        Student::factory(500)->create();
+        Student::factory(50)->create();
 //        Communicator::factory()->create()
 
         // \App\Models\User::factory(10)->create();

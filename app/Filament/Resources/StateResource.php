@@ -28,14 +28,7 @@ class StateResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(60),
-                Select::make('country_id')
-                    ->relationship('country', 'name')
-                    ->required(),
-            ]);
+            ->schema(State::getForm());
     }
 
     public static function table(Table $table): Table

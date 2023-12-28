@@ -27,17 +27,7 @@ class CountryResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(60),
-                TextInput::make('code')
-                    ->required()
-                    ->maxLength(3),
-                TextInput::make('phone_code')
-                    ->tel()
-                    ->maxLength(5),
-            ]);
+            ->schema(Country::getForm());
     }
 
     public static function table(Table $table): Table

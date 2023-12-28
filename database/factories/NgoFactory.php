@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enum\Region;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Ngo;
@@ -22,6 +23,7 @@ class NgoFactory extends Factory
     {
         return [
             'name' => $this->faker->company(),
+            'region' => $this->faker->randomElement(Region::class),
         ];
     }
 }

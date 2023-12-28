@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('learning_centers', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
+            $table->string('region', 25)->nullable();
             $table->foreignId('ngo_id');
             $table->timestamps();
             $table->softDeletes();
