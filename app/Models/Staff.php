@@ -19,7 +19,7 @@ class Staff extends Model
         'designation_id' => 'integer',
     ];
 
-    public function addresses(): MorphMany
+    public function address(): MorphMany
     {
         return $this->morphMany(Address::class, 'addressable');
     }

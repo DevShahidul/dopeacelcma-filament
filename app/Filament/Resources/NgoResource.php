@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Enum\Region;
 use App\Filament\Resources\NgoResource\Pages;
 use App\Filament\Resources\NgoResource\RelationManagers;
+use App\Filament\Resources\NgoResource\RelationManagers\AddressRelationManager;
 use App\Models\Ngo;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
@@ -52,7 +53,7 @@ class NgoResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            AddressRelationManager::class
         ];
     }
 

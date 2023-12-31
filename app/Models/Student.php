@@ -46,7 +46,7 @@ class Student extends Model implements HasMedia
         'graduated_date' => 'date',
     ];
 
-    public function addresses(): MorphMany
+    public function address(): MorphMany
     {
         return $this->morphMany(Address::class, 'addressable');
     }

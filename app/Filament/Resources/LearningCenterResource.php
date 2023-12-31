@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Enum\Region;
 use App\Filament\Resources\LearningCenterResource\Pages;
 use App\Filament\Resources\LearningCenterResource\RelationManagers;
+use App\Filament\Resources\NgoResource\RelationManagers\AddressRelationManager;
 use App\Models\LearningCenter;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
@@ -73,7 +74,7 @@ class LearningCenterResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            AddressRelationManager::class
         ];
     }
 

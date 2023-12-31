@@ -21,7 +21,7 @@ class Ngo extends Model
         'region' => Region::class,
     ];
 
-    public function addresses(): MorphMany
+    public function address(): MorphMany
     {
         return $this->morphMany(Address::class, 'addressable');
     }

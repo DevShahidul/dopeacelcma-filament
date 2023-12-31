@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\NgoResource\RelationManagers\AddressRelationManager;
 use App\Filament\Resources\StaffResource\Pages;
 use App\Filament\Resources\StaffResource\RelationManagers;
 use App\Models\Designation;
@@ -86,7 +87,7 @@ class StaffResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            AddressRelationManager::class
         ];
     }
 
