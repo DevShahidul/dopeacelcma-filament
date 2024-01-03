@@ -24,11 +24,6 @@ class Ngo extends Model
         'region' => Region::class,
     ];
 
-    public function address(): MorphMany
-    {
-        return $this->morphMany(Address::class, 'addressable');
-    }
-
     public function learningCenters(): HasMany
     {
         return $this->hasMany(LearningCenter::class);

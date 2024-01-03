@@ -22,16 +22,6 @@ class Staff extends Model
         'designation_id' => 'integer',
     ];
 
-    public function address(): MorphMany
-    {
-        return $this->morphMany(Address::class, 'addressable');
-    }
-
-    public function communicators(): MorphMany
-    {
-        return $this->morphMany(Communicator::class, 'communicatorable');
-    }
-
     public function ngo(): BelongsTo
     {
         return $this->belongsTo(Ngo::class);

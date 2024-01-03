@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('zip_code');
             $table->string('address', 120);
             $table->string('email', 60)->nullable();
-            $table->string('phone', 15)->nullable();
+            $table->string('phone', 25)->nullable();
             $table->string('facebook_url', 255)->nullable();
             $table->string('whatsapp_number', 255)->nullable();
             $table->foreignId('learning_center_id');

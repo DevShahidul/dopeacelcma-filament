@@ -25,11 +25,6 @@ class LearningCenter extends Model
         'ngo_id' => 'integer',
     ];
 
-    public function address(): MorphMany
-    {
-        return $this->morphMany(Address::class, 'addressable');
-    }
-
     public function ngo(): BelongsTo
     {
         return $this->belongsTo(Ngo::class);

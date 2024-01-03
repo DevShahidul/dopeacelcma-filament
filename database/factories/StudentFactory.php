@@ -3,8 +3,12 @@
 namespace Database\Factories;
 
 use App\Enum\Gender;
+use App\Enum\LearningCenterType;
+use App\Models\City;
 use App\Models\Classes;
+use App\Models\Country;
 use App\Models\Session;
+use App\Models\State;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\LearningCenter;
@@ -31,9 +35,17 @@ class StudentFactory extends Factory
             'mothers_name' => $this->faker->name('female'),
             'gender' => $this->faker->randomElement(Gender::class),
             'birth_date' => $this->faker->date(),
+            'country_id' => Country::factory(),
+            'state_id' => State::factory(),
+            'city_id' => City::factory(),
+            'zip_code' => $this->faker->postcode(),
+            'address' => $this->faker->address(),
             'email' => $this->faker->safeEmail(),
+            'phone' => $this->faker->phoneNumber(),
+            'facebook_url' => $this->faker->randomElement(['https://www.facebook.com', null]),
+            'whatsapp_number' => $this->faker->e164PhoneNumber(),
             'learning_center_id' => LearningCenter::factory(),
-            'learning_center_type' => $this->faker->randomElement(["Coaching","Pre School"]),
+            'learning_center_type' => $this->faker->randomElement(LearningCenterType::class),
             'classes_id' => Classes::factory(),
             'session_id' => Session::factory(),
             'class_roll' => $this->faker->numberBetween(1, 120),
