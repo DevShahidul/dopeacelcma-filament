@@ -19,6 +19,9 @@ class LearningCenter extends Model
 
     protected $casts = [
         'id' => 'integer',
+        'country_id' => 'integer',
+        'state_id' => 'integer',
+        'city_id' => 'integer',
         'ngo_id' => 'integer',
     ];
 

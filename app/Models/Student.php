@@ -37,6 +37,9 @@ class Student extends Model implements HasMedia
     protected $casts = [
         'id' => 'integer',
         'birth_date' => 'date',
+        'country_id' => 'integer',
+        'state_id' => 'integer',
+        'city_id' => 'integer',
         'learning_center_id' => 'integer',
         'learning_center_type' => LearningCenterType::class,
         'classes_id' => 'integer',

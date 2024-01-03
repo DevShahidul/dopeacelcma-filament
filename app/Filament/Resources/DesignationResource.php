@@ -22,7 +22,8 @@ class DesignationResource extends Resource
 {
     protected static ?string $model = Designation::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Staff Management';
+//    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {

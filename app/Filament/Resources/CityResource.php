@@ -3,6 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CityResource\Pages;
+use App\Filament\Resources\CityResource\RelationManagers\LearningCentersRelationManager;
+use App\Filament\Resources\CityResource\RelationManagers\NgosRelationManager;
 use App\Models\City;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
@@ -22,7 +24,8 @@ class CityResource extends Resource
 {
     protected static ?string $model = City::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'System Management';
+//    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
@@ -66,7 +69,8 @@ class CityResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            NgosRelationManager::class,
+            LearningCentersRelationManager::class
         ];
     }
 

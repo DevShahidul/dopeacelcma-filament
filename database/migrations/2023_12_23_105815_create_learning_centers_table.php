@@ -16,6 +16,11 @@ return new class extends Migration
             $table->string('name', 255);
             $table->string('region', 25)->nullable();
             $table->foreignId('ngo_id');
+            $table->foreignId('country_id');
+            $table->foreignId('state_id');
+            $table->foreignId('city_id');
+            $table->string('zip_code');
+            $table->string('address', 120);
             $table->timestamps();
             $table->softDeletes();
         });

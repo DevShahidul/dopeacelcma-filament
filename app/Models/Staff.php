@@ -15,6 +15,9 @@ class Staff extends Model
     protected $casts = [
         'id' => 'integer',
         'user_id' => 'integer',
+        'country_id' => 'integer',
+        'state_id' => 'integer',
+        'city_id' => 'integer',
         'ngo_id' => 'integer',
         'designation_id' => 'integer',
     ];

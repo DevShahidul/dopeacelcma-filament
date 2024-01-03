@@ -16,6 +16,14 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->foreignId('ngo_id');
             $table->foreignId('designation_id');
+            $table->foreignId('country_id');
+            $table->foreignId('state_id');
+            $table->foreignId('city_id');
+            $table->string('zip_code');
+            $table->string('address', 120);
+            $table->string('phone', 15)->nullable();
+            $table->string('facebook_url', 255)->nullable();
+            $table->string('whatsapp_number', 255)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

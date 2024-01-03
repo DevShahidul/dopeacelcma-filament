@@ -20,7 +20,15 @@ return new class extends Migration
             $table->string('mothers_name', 60);
             $table->enum('gender', ["male","female","other"]);
             $table->date('birth_date');
+            $table->foreignId('country_id');
+            $table->foreignId('state_id');
+            $table->foreignId('city_id');
+            $table->string('zip_code');
+            $table->string('address', 120);
             $table->string('email', 60)->nullable();
+            $table->string('phone', 15)->nullable();
+            $table->string('facebook_url', 255)->nullable();
+            $table->string('whatsapp_number', 255)->nullable();
             $table->foreignId('learning_center_id');
             $table->enum('learning_center_type', ["Coaching","Pre School"])->default('Pre School');
             $table->foreignId('classes_id');

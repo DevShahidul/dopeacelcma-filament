@@ -18,6 +18,9 @@ class Ngo extends Model
 
     protected $casts = [
         'id' => 'integer',
+        'country_id' => 'integer',
+        'state_id' => 'integer',
+        'city_id' => 'integer',
         'region' => Region::class,
     ];
 

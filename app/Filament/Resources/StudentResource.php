@@ -6,6 +6,7 @@ use App\Enum\Gender;
 use App\Enum\LearningCenterType;
 use App\Filament\Resources\StudentResource\Pages;
 use App\Filament\Resources\StudentResource\RelationManagers;
+use App\Filament\Widgets\StudentStatsWidget;
 use App\Models\Classes;
 use App\Models\Student;
 use Filament\Forms;
@@ -43,8 +44,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class StudentResource extends Resource
 {
     protected static ?string $model = Student::class;
+//    protected static ?string $navigationGroup = 'Student Management';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     public static function form(Form $form): Form
     {
@@ -240,6 +242,13 @@ class StudentResource extends Resource
     {
         return [
             //
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            StudentStatsWidget::class
         ];
     }
 

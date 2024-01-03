@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationGroup;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -29,6 +30,10 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('/')
             ->login()
+            ->passwordReset()
+            ->emailVerification()
+//            ->brandLogo()
+            ->darkMode(false, true)
             ->colors([
                 'primary' => Color::Indigo,
                 'gray' => Color::Slate,
@@ -38,11 +43,12 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+            ->navigationGroups([
+                NavigationGroup::make('System Management')->icon('heroicon-o-flag'),
+                NavigationGroup::make('Staff Management')->icon('heroicon-o-users'),
+                NavigationGroup::make('Ngos & Learning Centers')->icon('heroicon-o-building-storefront'),
             ])
+            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
