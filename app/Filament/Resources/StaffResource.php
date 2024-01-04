@@ -31,19 +31,7 @@ class StaffResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->required(),
-                Select::make('ngo_id')
-                    ->createOptionForm(Ngo::getForm())
-                    ->relationship('ngo', 'name')
-                    ->required(),
-                Select::make('designation_id')
-                    ->createOptionForm(Designation::getForm())
-                    ->relationship('designation', 'name')
-                    ->required(),
-            ]);
+            ->schema(Staff::getForm());
     }
 
     public static function table(Table $table): Table
@@ -59,6 +47,17 @@ class StaffResource extends Resource
                 TextColumn::make('designation.name')
                     ->numeric()
                     ->sortable(),
+                TextColumn::make('city.name')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('state.name')
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('country.name')
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -88,7 +87,7 @@ class StaffResource extends Resource
     public static function getRelations(): array
     {
         return [
-            AddressRelationManager::class
+//            AddressRelationManager::class
         ];
     }
 

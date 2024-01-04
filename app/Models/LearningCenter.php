@@ -30,6 +30,21 @@ class LearningCenter extends Model
         return $this->belongsTo(Ngo::class);
     }
 
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function state(): BelongsTo
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(City::class);
+    }
+
     public static function getForm(): array
     {
         return [
@@ -46,6 +61,31 @@ class LearningCenter extends Model
                 ->relationship('ngo', 'name', modifyQueryUsing: function (Builder $query, Get $get){
                     return $query->where('region', $get('region'));
                 })
+                ->required(),
+            Select::make('country_id')
+                ->createOptionForm(Country::getForm())
+                ->editOptionForm(Country::getForm())
+                ->relationship('country', 'name')
+                ->searchable()
+                ->preload()
+                ->required(),
+            Select::make('state_id')
+                ->createOptionForm(State::getForm())
+                ->editOptionForm(State::getForm())
+                ->relationship('state', 'name')
+                ->searchable()
+                ->preload()
+                ->required(),
+            Select::make('city_id')
+                ->createOptionForm(City::getForm())
+                ->editOptionForm(City::getForm())
+                ->relationship('city', 'name')
+                ->searchable()
+                ->preload()
+                ->required(),
+            TextInput::make('zip_code')
+                ->required(),
+            TextInput::make('address')
                 ->required(),
         ];
     }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -42,4 +43,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public static function getForm(): array
+    {
+        return [
+            TextInput::make('name')
+                ->label('User Name')
+                ->required()
+                ->maxLength(255),
+            TextInput::make('email')
+                ->label('User email')
+                ->email()
+                ->required(),
+            TextInput::make('password')
+                ->password()
+                ->required(),
+        ];
+    }
 }

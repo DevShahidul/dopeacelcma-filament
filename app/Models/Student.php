@@ -54,6 +54,21 @@ class Student extends Model implements HasMedia
         return $this->belongsTo(LearningCenter::class);
     }
 
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function state(): BelongsTo
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(City::class);
+    }
+
     public function classes(): BelongsTo
     {
         return $this->belongsTo(Classes::class);
@@ -81,6 +96,7 @@ class Student extends Model implements HasMedia
                 ->schema([
                     FileUpload::make('avatar')
                         ->avatar()
+                        ->image()
                         ->directory('avatars')
                         ->preserveFilenames()
                         ->imageEditor()
@@ -101,12 +117,48 @@ class Student extends Model implements HasMedia
                         ->email()
                         ->maxLength(60),
                     Select::make('gender')
+                        ->live()
                         ->enum(Gender::class)
                         ->options(Gender::class)
                         ->required(),
                     DatePicker::make('birth_date')
                         ->native(false)
                         ->required(),
+                ]),
+            Section::make('Contact Information')
+                ->collapsible()
+                ->icon('heroicon-s-flag')
+                ->columns(2)
+                ->schema([
+                    Select::make('country_id')
+                        ->searchable()
+                        ->preload()
+                        ->createOptionForm(Country::getForm())
+                        ->editOptionForm(Country::getForm())
+                        ->relationship('country', 'name')
+                        ->required(),
+                    Select::make('state_id')
+                        ->searchable()
+                        ->preload()
+                        ->createOptionForm(State::getForm())
+                        ->editOptionForm(State::getForm())
+                        ->relationship('state', 'name')
+                        ->required(),
+                    Select::make('city_id')
+                        ->searchable()
+                        ->preload()
+                        ->createOptionForm(City::getForm())
+                        ->editOptionForm(City::getForm())
+                        ->relationship('city', 'name')
+                        ->required(),
+                    TextInput::make('zip_code')
+                        ->required(),
+                    TextInput::make('address')
+                        ->required(),
+                    TextInput::make('phone')
+                        ->required(),
+                    TextInput::make('facebook_url'),
+                    TextInput::make('whatsapp_number'),
                 ]),
             Section::make('Academic Information')
                 ->collapsible()
@@ -145,7 +197,7 @@ class Student extends Model implements HasMedia
                     ->required(),
                 Fieldset::make('Current Institute Info')
                     ->hidden(
-                        fn(Get $get): bool => $get('is_still_in_learning_center')
+                        fn(Get $get) => $get('is_still_in_learning_center')
                     )
                     ->schema([
                         DatePicker::make('graduated_date')

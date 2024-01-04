@@ -44,8 +44,17 @@ class LearningCenterResource extends Resource
                 TextColumn::make('region')
                     ->searchable(),
                 TextColumn::make('ngo.name')
-                    ->numeric()
+                    ->searchable()
                     ->sortable(),
+                TextColumn::make('city.name')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('state.name')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('country.name')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -75,7 +84,7 @@ class LearningCenterResource extends Resource
     public static function getRelations(): array
     {
         return [
-            AddressRelationManager::class
+//            AddressRelationManager::class
         ];
     }
 

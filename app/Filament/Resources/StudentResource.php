@@ -35,6 +35,7 @@ use Filament\Tables\Actions\RestoreBulkAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
@@ -57,6 +58,7 @@ class StudentResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->persistFiltersInSession()
             ->filtersTriggerAction(function ($action){
                 return $action->button()->label('Filters');
             })
@@ -86,6 +88,17 @@ class StudentResource extends Resource
                 TextColumn::make('age')
                     ->numeric()
                     ->sortable(),
+                TextColumn::make('city.name')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('state.name')
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('country.name')
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('email')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
@@ -129,26 +142,18 @@ class StudentResource extends Resource
                 TextColumn::make('department')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('deleted_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 TrashedFilter::make(),
                 SelectFilter::make('learning_center_type')
                     ->options(LearningCenterType::class),
                 SelectFilter::make('gender')
-                    ->options(Gender::class)
-
+                    ->options(Gender::class),
+                Filter::make('has_avatar')
+                    ->label('Show only with avatar')
+                    ->query(function (Builder $query){
+                        return $query->whereNotNull('avatar');
+                    })
             ])
             ->actions([
 //                ViewAction::make(),
@@ -195,7 +200,7 @@ class StudentResource extends Resource
                         ->defaultImageUrl(function ($record) {
                             $name = "{$record->first_name} {$record->last_name}";
                             return 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' . urlencode($name);
-                        }),
+                        })->extraImgAttributes(['loading' => 'lazy']),
                     Group::make()
                         ->columnSpan(2)
                         ->columns(2)
@@ -209,6 +214,21 @@ class StudentResource extends Resource
                     TextEntry::make('birth_date'),
                     TextEntry::make('age'),
                 ]),
+                Section::make('Contact Information')
+                    ->collapsible()
+                    ->icon('heroicon-s-home-modern')
+                    ->columns(3)
+                    ->schema([
+                        TextEntry::make('country.name'),
+                        TextEntry::make('state.name'),
+                        TextEntry::make('city.name'),
+                        TextEntry::make('zip_code'),
+                        TextEntry::make('address'),
+                        TextEntry::make('email'),
+                        TextEntry::make('phone'),
+                        TextEntry::make('facebook_url'),
+                        TextEntry::make('whatsapp_number'),
+                    ]),
                 Section::make('Academic Information ')
                     ->collapsible()
                     ->icon('heroicon-s-building-library')
