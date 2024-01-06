@@ -29,9 +29,9 @@ class LearningCenterFactory extends Factory
             'name' => $this->faker->name() . "Learning Center",
             'region' => $this->faker->randomElement(Region::class),
             'ngo_id' => Ngo::factory(),
-            'country_id' => Country::factory(),
-            'state_id' => State::factory(),
-            'city_id' => City::factory(),
+            'country_id' => Country::all()->random()->id,
+            'state_id' => State::all()->random()->id,
+            'city_id' => City::all()->random()->id,
             'zip_code' => $this->faker->postcode(),
             'address' => $this->faker->address(),
         ];

@@ -27,16 +27,16 @@ class StaffFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
-            'ngo_id' => Ngo::factory(),
-            'designation_id' => Designation::factory(),
-            'country_id' => Country::factory(),
-            'state_id' => State::factory(),
-            'city_id' => City::factory(),
+            'user_id' => User::all()->random()->id,
+            'ngo_id' => Ngo::all()->random()->id,
+            'designation_id' => Designation::all()->random()->id,
+            'country_id' => Country::all()->random()->id,
+            'state_id' => State::all()->random()->id,
+            'city_id' => City::all()->random()->id,
             'zip_code' => $this->faker->postcode(),
             'address' => $this->faker->address(),
             'phone' => $this->faker->phoneNumber(),
-            'facebook_url' => $this->faker->regexify('[A-Za-z0-9]{255}'),
+            'facebook_url' => $this->faker->url(),
             'whatsapp_number' => $this->faker->e164PhoneNumber(),
         ];
     }

@@ -2,18 +2,15 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\City;
-use App\Models\Classes;
-use App\Models\Communicator;
-use App\Models\Country;
-use App\Models\Designation;
-use App\Models\Session;
+use App\Models\LearningCenter;
 use App\Models\Staff;
 use App\Models\Student;
 use App\Models\Subjects;
 use App\Models\User;
+use CitiesTableSeeder;
+use CountriesTableSeeder;
 use Illuminate\Database\Seeder;
+use StatesTableSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,21 +19,25 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(50)->create();
-        City::factory()->create();
-        Classes::factory(10)->create();
-        Designation::factory(10)->create();
-        Session::factory(4)->create();
-        Staff::factory(20)->create();
+        $this->call(CountriesSeeder::class);
+        $this->call(StatesSeeder::class);
+        $this->call(CitiesSeeder::class);
+
+        $this->call(DesignationSeeder::class);
+        $this->call(ClassesSeeder::class);
+        $this->call(SessionSeeder::class);
+
+
+        User::factory(20)->create();
+        LearningCenter::factory(20)->create();
+
+        Staff::factory(10)->create();
         Subjects::factory(3)->create();
         Student::factory(50)->create();
-//        Communicator::factory()->create()
 
-        // \App\Models\User::factory(10)->create();
-
-         \App\Models\User::factory()->create([
-             'name' => 'Shahidul Islam',
-             'email' => 'shahidul@pitc.edu',
-         ]);
+        User::factory()->create([
+            'name' => 'Shahidul Islam',
+            'email' => 'shahidul@pitc.edu',
+        ]);
     }
 }

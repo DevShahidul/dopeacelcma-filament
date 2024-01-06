@@ -99,18 +99,6 @@ class Ngo extends Model
             TextColumn::make('country.name')
                 ->sortable()
                 ->searchable(),
-            TextColumn::make('created_at')
-                ->dateTime()
-                ->sortable()
-                ->toggleable(isToggledHiddenByDefault: true),
-            TextColumn::make('updated_at')
-                ->dateTime()
-                ->sortable()
-                ->toggleable(isToggledHiddenByDefault: true),
-            TextColumn::make('deleted_at')
-                ->dateTime()
-                ->sortable()
-                ->toggleable(isToggledHiddenByDefault: true),
         ];
     }
 }

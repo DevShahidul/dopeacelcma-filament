@@ -131,6 +131,7 @@ class Student extends Model implements HasMedia
                 ->columns(2)
                 ->schema([
                     Select::make('country_id')
+                        ->live()
                         ->searchable()
                         ->preload()
                         ->createOptionForm(Country::getForm())

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('staff', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreignId('ngo_id');
+            $table->foreignId('ngo_id')->nullable();
             $table->foreignId('designation_id');
             $table->foreignId('country_id');
             $table->foreignId('state_id');
