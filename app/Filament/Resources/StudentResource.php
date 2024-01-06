@@ -90,7 +90,7 @@ class StudentResource extends Resource
                     ->sortable(),
                 TextColumn::make('city.name')
                     ->sortable()
-                    ->searchable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('state.name')
                     ->sortable()
                     ->searchable()

@@ -87,6 +87,7 @@ class Ngo extends Model
     {
         return [
             TextColumn::make('name')
+                ->sortable()
                 ->searchable(),
             TextColumn::make('region')
                 ->searchable(),
