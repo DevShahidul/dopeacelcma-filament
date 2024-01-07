@@ -174,7 +174,8 @@ class StudentResource extends Resource
             ])
             ->headerActions([
                 Tables\Actions\Action::make('export')
-                    ->tooltip('This will export all records visible in the table. Adjust filters to export a subset of records.')
+                    ->tooltip('This will export all records visible in the table. Adjust filters to export a subset of records.'),
+                Import
             ]);
     }
 

@@ -27,7 +27,7 @@ class ListStudents extends ListRecords
                 ->modifyQueryUsing( function ($query){
                     return $query->where('is_still_in_learning_center', true);
                 }),
-            'not_in_learning_center' => Tab::make('Not in Learning Center')
+            'not_in_learning_center' => Tab::make('Not in the Learning Center')
                 ->modifyQueryUsing(function ($query) {
                     return $query->where('is_still_in_learning_center', false);
                 }),

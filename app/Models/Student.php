@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -131,26 +132,38 @@ class Student extends Model implements HasMedia
                 ->columns(2)
                 ->schema([
                     Select::make('country_id')
-                        ->live()
                         ->searchable()
                         ->preload()
+                        ->live()
                         ->createOptionForm(Country::getForm())
                         ->editOptionForm(Country::getForm())
                         ->relationship('country', 'name')
+                        ->afterStateUpdated(function (Set $set) {
+                            $set('state_id', null);
+                            $set('city_id', null);
+                            $set('learning_center_id', null);
+                        })
                         ->required(),
                     Select::make('state_id')
+                        ->label('State')
+                        ->options(fn(Get $get): Collection => State::query()
+                            ->where('country_id', $get('country_id'))
+                            ->pluck('name', 'id'))
                         ->searchable()
                         ->preload()
+                        ->live()
                         ->createOptionForm(State::getForm())
-                        ->editOptionForm(State::getForm())
-                        ->relationship('state', 'name')
+                        ->afterStateUpdated(fn(Set $set) => $set('city_id', null))
                         ->required(),
                     Select::make('city_id')
+                        ->label('City')
+                        ->options(fn(Get $get): Collection => City::query()
+                            ->where('state_id', $get('state_id'))
+                            ->pluck('name', 'id'))
                         ->searchable()
                         ->preload()
+                        ->live()
                         ->createOptionForm(City::getForm())
-                        ->editOptionForm(City::getForm())
-                        ->relationship('city', 'name')
                         ->required(),
                     TextInput::make('zip_code')
                         ->required(),
@@ -167,11 +180,14 @@ class Student extends Model implements HasMedia
                 ->columns(2)
                 ->schema([
                 Select::make('learning_center_id')
+                    ->label('Learning Center')
+                    ->options(fn(Get $get): Collection => LearningCenter::query()
+                        ->where('country_id', $get('country_id'))
+                        ->pluck('name', 'id'))
                     ->searchable()
                     ->preload()
                     ->createOptionForm(LearningCenter::getForm())
-                    ->editOptionForm(LearningCenter::getForm())
-                    ->relationship('learningCenter', 'name')
+                    ->live()
                     ->required(),
                 Select::make('learning_center_type')
                     ->live()
