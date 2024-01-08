@@ -81,33 +81,29 @@ class StudentResource extends Resource
                     ->searchable(),
                 TextColumn::make('gender')
                     ->searchable(),
-                TextColumn::make('birth_date')
+                TextColumn::make('date_of_birth')
                     ->date()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 TextColumn::make('age')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('city.name')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('state.name')
-                    ->sortable()
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('country.name')
-                    ->sortable()
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('email')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
+                TextColumn::make('ngo.name')
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->numeric()
+                    ->sortable(),
                 TextColumn::make('learningCenter.name')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('learning_center_type')
                     ->searchable(),
+                TextColumn::make('student_name_mentioned_year')
+                    ->numeric()
+                    ->sortable(),
                 TextColumn::make('classes.name')
                     ->numeric()
                     ->sortable(),
@@ -117,26 +113,30 @@ class StudentResource extends Resource
                 TextColumn::make('class_roll')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
-                TextColumn::make('enroll_date')
+                TextColumn::make('date_of_enrollment')
                     ->date()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_still_in_learning_center')
                     ->boolean(),
-                TextColumn::make('graduated_date')
+                TextColumn::make('date_of_graduation')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->date()
                     ->sortable(),
-                TextColumn::make('institute_name')
+                TextColumn::make('current_institute_name')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
-                TextColumn::make('institute_class_roll')
+                TextColumn::make('current_institute_class_roll')
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->searchable(),
+                TextColumn::make('city.name')
+                    ->label('City of the school')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
                 TextColumn::make('address_of_institute')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
-                TextColumn::make('grade_of_students')
+                TextColumn::make('grade_of_studying')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
                 TextColumn::make('department')
@@ -175,7 +175,6 @@ class StudentResource extends Resource
             ->headerActions([
                 Tables\Actions\Action::make('export')
                     ->tooltip('This will export all records visible in the table. Adjust filters to export a subset of records.'),
-                Import
             ]);
     }
 
@@ -212,7 +211,7 @@ class StudentResource extends Resource
                             TextEntry::make('mothers_name'),
                         ]),
                     TextEntry::make('gender'),
-                    TextEntry::make('birth_date'),
+                    TextEntry::make('date_of_birth'),
                     TextEntry::make('age'),
                 ]),
                 Section::make('Contact Information')
@@ -220,9 +219,6 @@ class StudentResource extends Resource
                     ->icon('heroicon-s-home-modern')
                     ->columns(3)
                     ->schema([
-                        TextEntry::make('country.name'),
-                        TextEntry::make('state.name'),
-                        TextEntry::make('city.name'),
                         TextEntry::make('zip_code'),
                         TextEntry::make('address'),
                         TextEntry::make('email'),
@@ -235,23 +231,27 @@ class StudentResource extends Resource
                     ->icon('heroicon-s-building-library')
                     ->columns(3)
                     ->schema([
+                        TextEntry::make('ngo.name'),
                         TextEntry::make('learningCenter.name'),
+                        TextEntry::make('learning_center_type'),
                         TextEntry::make('classes.name'),
                         TextEntry::make('session.name'),
                         TextEntry::make('class_roll'),
-                        TextEntry::make('enroll_date')
+                        TextEntry::make('date_of_enrollment')
                             ->date(),
 
                         Fieldset::make('Current Institute Info')
                             ->hidden(fn($record): bool => $record->is_still_in_learning_center)
                             ->columns(3)
                             ->schema([
-                                TextEntry::make('graduated_date')
+                                TextEntry::make('date_of_graduation')
                                     ->date(),
-                                TextEntry::make('institute_name'),
-                                TextEntry::make('institute_class_roll'),
+                                TextEntry::make('current_institute_name'),
+                                TextEntry::make('current_institute_class_roll'),
+                                TextEntry::make('city.name')
+                                    ->label('City of the school'),
                                 TextEntry::make('address_of_institute'),
-                                TextEntry::make('grade_of_students'),
+                                TextEntry::make('grade_of_studying'),
                                 TextEntry::make('department'),
                             ]),
 

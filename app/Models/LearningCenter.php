@@ -51,16 +51,10 @@ class LearningCenter extends Model
             TextInput::make('name')
                 ->required()
                 ->maxLength(255),
-            Select::make('region')
-                ->live()
-                ->enum(Region::class)
-                ->options(Region::class),
             Select::make('ngo_id')
                 ->searchable()
                 ->preload()
-                ->relationship('ngo', 'name', modifyQueryUsing: function (Builder $query, Get $get){
-                    return $query->where('region', $get('region'));
-                })
+                ->relationship('ngo', 'name')
                 ->required(),
             Select::make('country_id')
                 ->createOptionForm(Country::getForm())

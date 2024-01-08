@@ -18,6 +18,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -37,32 +38,25 @@ class Student extends Model implements HasMedia
 
     protected $casts = [
         'id' => 'integer',
-        'birth_date' => 'date',
-        'country_id' => 'integer',
-        'state_id' => 'integer',
-        'city_id' => 'integer',
+        'date_of_birth' => 'date',
+        'ngo_id' => 'integer',
         'learning_center_id' => 'integer',
         'learning_center_type' => LearningCenterType::class,
         'classes_id' => 'integer',
         'session_id' => 'integer',
-        'enroll_date' => 'date',
+        'date_of_enrollment' => 'date',
         'is_still_in_learning_center' => 'boolean',
-        'graduated_date' => 'date',
+        'date_of_graduation' => 'date',
     ];
+
+    public function ngo(): BelongsTo
+    {
+        return $this->belongsTo(Ngo::class);
+    }
 
     public function learningCenter(): BelongsTo
     {
         return $this->belongsTo(LearningCenter::class);
-    }
-
-    public function country(): BelongsTo
-    {
-        return $this->belongsTo(Country::class);
-    }
-
-    public function state(): BelongsTo
-    {
-        return $this->belongsTo(State::class);
     }
 
     public function city(): BelongsTo
@@ -83,7 +77,7 @@ class Student extends Model implements HasMedia
     public function age(): Attribute
     {
         return Attribute::make(
-            fn() => Carbon::parse($this->birth_date)->age,
+            fn() => Carbon::parse($this->date_of_birth)->age,
         );
     }
 
@@ -114,15 +108,12 @@ class Student extends Model implements HasMedia
                     TextInput::make('mothers_name')
                         ->required()
                         ->maxLength(60),
-                    TextInput::make('email')
-                        ->email()
-                        ->maxLength(60),
                     Select::make('gender')
                         ->live()
                         ->enum(Gender::class)
                         ->options(Gender::class)
                         ->required(),
-                    DatePicker::make('birth_date')
+                    DatePicker::make('date_of_birth')
                         ->native(false)
                         ->required(),
                 ]),
@@ -131,46 +122,12 @@ class Student extends Model implements HasMedia
                 ->icon('heroicon-s-flag')
                 ->columns(2)
                 ->schema([
-                    Select::make('country_id')
-                        ->searchable()
-                        ->preload()
-                        ->live()
-                        ->createOptionForm(Country::getForm())
-                        ->editOptionForm(Country::getForm())
-                        ->relationship('country', 'name')
-                        ->afterStateUpdated(function (Set $set) {
-                            $set('state_id', null);
-                            $set('city_id', null);
-                            $set('learning_center_id', null);
-                        })
-                        ->required(),
-                    Select::make('state_id')
-                        ->label('State')
-                        ->options(fn(Get $get): Collection => State::query()
-                            ->where('country_id', $get('country_id'))
-                            ->pluck('name', 'id'))
-                        ->searchable()
-                        ->preload()
-                        ->live()
-                        ->createOptionForm(State::getForm())
-                        ->afterStateUpdated(fn(Set $set) => $set('city_id', null))
-                        ->required(),
-                    Select::make('city_id')
-                        ->label('City')
-                        ->options(fn(Get $get): Collection => City::query()
-                            ->where('state_id', $get('state_id'))
-                            ->pluck('name', 'id'))
-                        ->searchable()
-                        ->preload()
-                        ->live()
-                        ->createOptionForm(City::getForm())
-                        ->required(),
-                    TextInput::make('zip_code')
-                        ->required(),
-                    TextInput::make('address')
-                        ->required(),
-                    TextInput::make('phone')
-                        ->required(),
+                    TextInput::make('zip_code'),
+                    TextInput::make('address'),
+                    TextInput::make('email')
+                        ->email()
+                        ->maxLength(60),
+                    TextInput::make('phone'),
                     TextInput::make('facebook_url'),
                     TextInput::make('whatsapp_number'),
                 ]),
@@ -179,13 +136,19 @@ class Student extends Model implements HasMedia
                 ->icon('heroicon-s-building-library')
                 ->columns(2)
                 ->schema([
+                    Select::make('ngo_id')
+                        ->searchable()
+                        ->preload()
+                        ->relationship('ngo', 'name')
+                        ->createOptionForm(Ngo::getForm())
+                        ->required(),
                 Select::make('learning_center_id')
                     ->label('Learning Center')
-                    ->options(fn(Get $get): Collection => LearningCenter::query()
-                        ->where('country_id', $get('country_id'))
-                        ->pluck('name', 'id'))
                     ->searchable()
                     ->preload()
+                    ->relationship('learningCenter', 'name', modifyQueryUsing: function (Builder $query, Get $get){
+                        return $query->where('ngo', $get('ngo'));
+                    })
                     ->createOptionForm(LearningCenter::getForm())
                     ->live()
                     ->required(),
@@ -193,6 +156,8 @@ class Student extends Model implements HasMedia
                     ->live()
                     ->enum(LearningCenterType::class)
                     ->options(LearningCenterType::class),
+                TextInput::make('student_name_mentioned_year')
+                    ->integer(),
                 Select::make('classes_id')
                     ->searchable()
                     ->preload()
@@ -206,7 +171,7 @@ class Student extends Model implements HasMedia
                 TextInput::make('class_roll')
                     ->required()
                     ->maxLength(60),
-                DatePicker::make('enroll_date')
+                DatePicker::make('date_of_enrollment')
                     ->native(false)
                     ->required(),
                 Toggle::make('is_still_in_learning_center')
@@ -217,16 +182,22 @@ class Student extends Model implements HasMedia
                         fn(Get $get) => $get('is_still_in_learning_center')
                     )
                     ->schema([
-                        DatePicker::make('graduated_date')
+                        DatePicker::make('date_of_graduation')
                             ->native(false),
-                        TextInput::make('institute_name')
+                        TextInput::make('current_institute_name')
                             ->maxLength(255),
-                        TextInput::make('institute_class_roll')
+                        TextInput::make('current_institute_class_roll')
                             ->maxLength(255),
+                        Select::make('city_id')
+                            ->label('City of the school')
+                            ->relationship('city', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->live()
+                            ->createOptionForm(City::getForm()),
                         TextInput::make('address_of_institute')
                             ->maxLength(255),
-                        TextInput::make('grade_of_students')
-
+                        TextInput::make('grade_of_studying')
                             ->maxLength(255),
                         TextInput::make('department')
                             ->maxLength(255),
@@ -247,7 +218,7 @@ class Student extends Model implements HasMedia
                     })
                     ->action(function ($livewire){
                         $data = Student::factory()->make()->toArray();
-//                        unset($data['learning_center_id']);
+//                        unset($data['ngo_id', 'learning_center_id]);
                         $livewire->form->fill($data);
                     }),
             ]),

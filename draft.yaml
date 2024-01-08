@@ -1,9 +1,10 @@
 models:
-  City:
-    name: string
-    state_id: unsignedInteger
+  Country:
+    name: string:60
+    code: string:3
+    phone_code: string:5 nullable
     relationships:
-      belongsTo: State
+      hasMany: State
 
   State:
     name: string:60
@@ -12,46 +13,35 @@ models:
       belongsTo: Country
       hasMany: City
 
-  Country:
-    name: string:60
-    code: string:3
-    phone_code: string:5 nullable
+  City:
+    name: string
+    state_id: unsignedInteger
     relationships:
-      hasMany: State
+      belongsTo: State,
 
-  Address:
+  Ngo:
+    name: string:255
     country_id: unsignedInteger
     state_id: unsignedInteger
     city_id: unsignedInteger
     zip_code: string
     address: string:120
-    relationships:
-      morphTo: Addressable
-      belongsTo: Country, State, City
-
-  Contact:
-    phone: string:15 nullable
-    facebook_url: string:255 nullable
-    whatsapp_number: string:255 nullable
-    relationships:
-      morphTo: Contactable
-
-  Ngo:
-    name: string:255
-    region: string
     softdeletes
     relationships:
-      morphMany: Address
       hasMany: LearningCenter
+      belongsTo: Country, State, City
 
   LearningCenter:
     name: string:255
-    region: string
     ngo_id: unsignedInteger
+    country_id: unsignedInteger
+    state_id: unsignedInteger
+    city_id: unsignedInteger
+    zip_code: string
+    address: string:120
     softdeletes
     relationships:
-      morphMany: Address
-      belongsTo: Ngo
+      belongsTo: Ngo, Country, State, City
 
   Designation:
     name: string:255
@@ -60,10 +50,17 @@ models:
     user_id: unsignedInteger
     ngo_id: unsignedInteger
     designation_id: unsignedInteger
+    country_id: unsignedInteger
+    state_id: unsignedInteger
+    city_id: unsignedInteger
+    zip_code: string
+    address: string:120
+    phone: string:15 nullable
+    facebook_url: string:255 nullable
+    whatsapp_number: string:255 nullable
     softdeletes
     relationships:
-      morphMany: Address, Contact
-      belongsTo: Ngo, User, Designation
+      belongsTo: Ngo, User, Designation, Country, State, City
 
   Classes:
     name: string:255
@@ -79,31 +76,38 @@ models:
       hasMany: Student
 
   Student:
+    avatar: string
     first_name: string:60 index
     last_name: string:60 index
     fathers_name: string:60
     mothers_name: string:60
-    gender: enum:male,female,other
-    birth_date: date
-    age: integer
+    gender: enum:male,female
+    date_of_birth: date
+    zip_code: string nullable
+    address: string nullable
     email: string:60 nullable
+    phone: string:15 nullable
+    facebook_url: string:255 nullable
+    whatsapp_number: string:255 nullable
+    ngo_id: unsignedInteger
     learning_center_id: unsignedInteger
     learning_center_type: enum:Coaching,"Pre School" default:"Pre School"
+    student_name_mentioned_year: integer
     classes_id: unsignedInteger
     session_id: unsignedInteger
     class_roll: integer
-    enroll_date: date
+    date_of_enrollment: date
     is_still_in_learning_center: boolean default:true
-    graduated_date: date nullable
-    institute_name: string:255 nullable
-    institute_class_roll: integer nullable
+    date_of_graduation: date nullable
+    current_institute_name: string:255 nullable
+    current_institute_class_roll: integer nullable
+    city_id: unsignedInteger
     address_of_institute: string:10 nullable
-    grade_of_students: string:15 nullable
+    grade_of_studying: string:15 nullable
     department: string:255 nullable
     softdeletes
     relationships:
-      morphMany: Address, Contact
-      belongsTo: LearningCenter, Classes, Session
+      belongsTo: City, Ngo, LearningCenter, Classes, Session
 
   Attendance:
     student_id: unsignedInteger
