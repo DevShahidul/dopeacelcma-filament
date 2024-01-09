@@ -16,8 +16,7 @@ return new class extends Migration
             $table->text('avatar')->nullable();
             $table->string('first_name', 60)->index();
             $table->string('last_name', 60)->index();
-            $table->string('fathers_name', 60);
-            $table->string('mothers_name', 60);
+            $table->string('father_mother_name', 120);
             $table->enum('gender', ["male","female"]);
             $table->date('date_of_birth');
             $table->string('zip_code')->nullable();
@@ -28,7 +27,7 @@ return new class extends Migration
             $table->string('whatsapp_number', 255)->nullable();
             $table->foreignId('ngo_id');
             $table->foreignId('learning_center_id');
-            $table->enum('learning_center_type', ["Coaching","Pre School"])->default('Pre School');
+            $table->enum('learning_center_type', ["coaching","pre school"])->default('Pre School');
             $table->integer('student_name_mentioned_year')->nullable();
             $table->foreignId('classes_id');
             $table->foreignId('session_id')->nullable();

@@ -5,6 +5,9 @@ namespace App\Models;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -84,25 +87,36 @@ class Staff extends Model
                 ->columns(2)
                 ->schema([
                     Select::make('country_id')
-                        ->createOptionForm(Country::getForm())
-                        ->editOptionForm(Country::getForm())
-                        ->relationship('country', 'name')
                         ->searchable()
                         ->preload()
+                        ->live()
+                        ->relationship('country', 'name')
+                        ->createOptionForm(Country::getForm())
+                        ->afterStateUpdated(function (Set $set){
+                            $set('state_id', null);
+                            $set('city_id', null);
+                        })
                         ->required(),
                     Select::make('state_id')
-                        ->createOptionForm(State::getForm())
-                        ->editOptionForm(State::getForm())
-                        ->relationship('state', 'name')
                         ->searchable()
                         ->preload()
+                        ->live()
+                        ->relationship('state', 'name', modifyQueryUsing: function (Builder $query, Get $get){
+                            return $query->where('country_id', $get('country_id'));
+                        })
+                        ->createOptionForm(State::getForm())
+                        ->afterStateUpdated(function (Set $set){
+                            $set('city_id', null);
+                        })
                         ->required(),
                     Select::make('city_id')
-                        ->createOptionForm(City::getForm())
-                        ->editOptionForm(City::getForm())
-                        ->relationship('city', 'name')
                         ->searchable()
                         ->preload()
+                        ->live()
+                        ->relationship('city', 'name', modifyQueryUsing: function (Builder $query, Get $get){
+                            return $query->where('state_id', $get('state_id'));
+                        })
+                        ->createOptionForm(City::getForm())
                         ->required(),
                     TextInput::make('zip_code')
                         ->required(),

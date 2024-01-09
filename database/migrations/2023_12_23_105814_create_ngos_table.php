@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('ngos', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
-            $table->string('region', 25);
             $table->foreignId('country_id');
             $table->foreignId('state_id');
             $table->foreignId('city_id');

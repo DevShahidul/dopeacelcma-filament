@@ -4,6 +4,6 @@ namespace App\Enum;
 
 enum LearningCenterType: string
 {
- case Coaching = 'Coaching';
- case PreSchool = 'Pre School';
+ case Coaching = 'coaching';
+ case PreSchool = 'pre school';
 }

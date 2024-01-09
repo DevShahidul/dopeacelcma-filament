@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Enum\Gender;
 use App\Enum\LearningCenterType;
+use App\Filament\Imports\StudentImporter;
 use App\Filament\Resources\StudentResource\Pages;
 use App\Filament\Resources\StudentResource\RelationManagers;
 use App\Filament\Widgets\StudentStatsWidget;
@@ -102,7 +103,7 @@ class StudentResource extends Resource
                 TextColumn::make('learning_center_type')
                     ->searchable(),
                 TextColumn::make('student_name_mentioned_year')
-                    ->numeric()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 TextColumn::make('classes.name')
                     ->numeric()
@@ -175,6 +176,7 @@ class StudentResource extends Resource
             ->headerActions([
                 Tables\Actions\Action::make('export')
                     ->tooltip('This will export all records visible in the table. Adjust filters to export a subset of records.'),
+                Tables\Actions\ImportAction::make()->importer(StudentImporter::class)
             ]);
     }
 

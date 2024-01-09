@@ -26,7 +26,6 @@ class NgoFactory extends Factory
     {
         return [
             'name' => $this->faker->company(),
-            'region' => $this->faker->randomElement(Region::class),
             'country_id' => Country::all()->random()->id,
             'state_id' => State::all()->random()->id,
             'city_id' => City::all()->random()->id,

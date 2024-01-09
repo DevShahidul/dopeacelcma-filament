@@ -29,15 +29,15 @@ class DatabaseSeeder extends Seeder
 
 
         User::factory(20)->create();
-        LearningCenter::factory(20)->create();
-
-        Staff::factory(10)->create();
-        Subjects::factory(3)->create();
-        Student::factory(50)->create();
-
         User::factory()->create([
             'name' => 'Shahidul Islam',
             'email' => 'shahidul@pitc.edu',
         ]);
+        LearningCenter::factory(20)->create();
+
+        Staff::factory(10)->create();
+        Subjects::factory(3)->create();
+        Student::factory(20)->create();
+
     }
 }

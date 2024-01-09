@@ -102,10 +102,7 @@ class Student extends Model implements HasMedia
                     TextInput::make('last_name')
                         ->required()
                         ->maxLength(60),
-                    TextInput::make('fathers_name')
-                        ->required()
-                        ->maxLength(60),
-                    TextInput::make('mothers_name')
+                    TextInput::make('father_mother_name')
                         ->required()
                         ->maxLength(60),
                     Select::make('gender')
